@@ -2,6 +2,7 @@
 {% block title %}{{ plant.name }}{% endblock %}
 {% block content %}
 
+<!-- ================== تفاصيل النبتة ================== -->
 <section class="detail-layout">
   <!-- الصورة -->
   <div class="detail-image">
@@ -40,7 +41,8 @@
   </div>
 </section>
 
-<section>
+<!-- ================== النباتات المرتبطة ================== -->
+<section style="margin-top: 2.5rem;">
   <div class="section-header">
     <h2 class="section-title">Related plants</h2>
     <span class="section-sub">Same category</span>
@@ -65,6 +67,36 @@
       <p class="section-sub">No related plants found.</p>
     {% endfor %}
   </div>
+</section>
+
+<!-- ================== قائمة التعليقات ================== -->
+<section style="margin-top: 2.5rem;">
+  <h2 class="section-title">Comments</h2>
+
+  {% if comments %}
+    <ul class="comment-list">
+      {% for comment in comments %}
+        <li class="comment-item">
+          <p class="comment-meta">
+            {{ comment.name }} · {{ comment.date_added|date:"Y-m-d H:i" }}
+          </p>
+          <p>{{ comment.content|linebreaks }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="section-sub">No comments yet. Be the first to comment.</p>
+  {% endif %}
+</section>
+
+<!-- ================== فورم إضافة تعليق ================== -->
+<section class="form-card" style="margin-top: 1.5rem;">
+  <h3 class="section-title" style="margin-bottom: 1rem;">Add a comment</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 </section>
 
 {% endblock %}
